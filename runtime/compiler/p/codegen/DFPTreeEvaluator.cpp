@@ -43,7 +43,7 @@ extern TR::Instruction *loadConstant(TR::CodeGenerator *cg, TR::Node * node, int
                               TR::Register *trgReg, TR::Instruction *cursor, bool isPicSite);
 extern TR::Instruction *loadConstant(TR::CodeGenerator *cg, TR::Node * node, int64_t value,
                               TR::Register *trgReg, TR::Instruction *cursor, bool isPicSite);
-
+                              
 // used when querying VM for BigDecimal dfp field
 static int16_t dfpFieldOffset = -1; // initialize to an illegal val
 

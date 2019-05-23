@@ -74,9 +74,6 @@
 #define AIX_NULL_ZERO_AREA_SIZE 256
 #define NUM_PICS 3
 
-extern TR::Register *addConstantToLong(TR::Node * node, TR::Register *srcReg, int64_t value, TR::Register *trgReg, TR::CodeGenerator *cg);
-extern TR::Register *addConstantToInteger(TR::Node * node, TR::Register *trgReg, TR::Register *srcReg, int32_t value, TR::CodeGenerator *cg);
-
 static const char *ppcSupportsReadMonitors = feGetEnv("TR_ppcSupportReadMonitors");
 
 extern uint32_t getPPCCacheLineSize();
