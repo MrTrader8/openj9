@@ -2893,7 +2893,7 @@ void traceNVVMIR(TR::Compilation *comp, char *buffer)
          }
       cs = ce;
       }
-   traceMsg(comp, "\n");
+   traceMsg(comp, "4\n");
    }
 
 
@@ -3332,7 +3332,7 @@ J9::CodeGenerator::dumpNVVMIR(
          {
          ir.print("%u", (_gpuNeedNullCheckArguments_vector >> (uint64_t)i) & 1);
          }
-      ir.print("\n");
+      ir.print("5\n");
       }
 
    if (_gpuHasNullCheck)

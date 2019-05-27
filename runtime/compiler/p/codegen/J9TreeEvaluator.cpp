@@ -7679,9 +7679,9 @@ static bool simpleReadMonitor(TR::Node *node, TR::CodeGenerator *cg, TR::Node *o
    // evaluating them here
    if (comp->getOption(TR_TraceCG) || debug("traceGRA"))
       {
-      trfprintf(comp->getOutFile(), "\n");
+      trfprintf(comp->getOutFile(), "2\n");
       comp->getDebug()->dumpSingleTreeWithInstrs(nextTreeTop, NULL, true, false, true, comp->getOption(TR_TraceRegisterPressureDetails));
-      trfprintf(comp->getOutFile(), "\n");
+      trfprintf(comp->getOutFile(), "3\n");
       comp->getDebug()->dumpSingleTreeWithInstrs(secondNextTreeTop, NULL, true, false, true, comp->getOption(TR_TraceRegisterPressureDetails));
       trfflush(comp->getOutFile());
       }
