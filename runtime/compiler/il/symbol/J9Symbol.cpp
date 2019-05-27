@@ -203,7 +203,8 @@ J9::Symbol::searchRecognizedField(TR::Compilation * comp, TR_ResolvedMethod * ow
           && comp->fej9()->isClassInitialized(clazz)
           && strncmp(&(fieldName[totalLen - 22]), assertionsDisabledStr, 21) == 0)
          {
-         traceMsg(comp, "Matched $assertionsDisabled Z\n");
+         if (comp->getOption(TR_TraceCG))
+            traceMsg(comp, "Matched $assertionsDisabled Z\n");
          return assertionsDisabled;
          }
       }
