@@ -7938,7 +7938,7 @@ TR_FlowSensitiveEscapeAnalysis::TR_FlowSensitiveEscapeAnalysis(TR::Compilation *
          {
          traceMsg(comp, "Successors : \n");
          successors->print(comp);
-         traceMsg(comp, "\n");
+         traceMsg(comp, "39\n");
          }
 
       TR_BitVectorIterator succIt(*successors);
@@ -7967,7 +7967,7 @@ TR_FlowSensitiveEscapeAnalysis::TR_FlowSensitiveEscapeAnalysis(TR::Compilation *
                {
                traceMsg(comp, "Predecessors of next succ %d : \n", nextSucc);
                preds->print(comp);
-               traceMsg(comp, "\n");
+               traceMsg(comp, "40\n");
                }
 
             *_scratch = *preds;
@@ -8005,7 +8005,7 @@ TR_FlowSensitiveEscapeAnalysis::TR_FlowSensitiveEscapeAnalysis(TR::Compilation *
                {
                traceMsg(comp, "Scratch : \n");
                _scratch->print(comp);
-               traceMsg(comp, "\n");
+               traceMsg(comp, "41\n");
                }
 
             //if (postDominated)
@@ -8776,7 +8776,7 @@ bool TR_LocalFlushElimination::examineNode(TR::Node *node, TR::NodeChecklist& vi
                traceMsg(comp(), "\nConsidering Flush for allocation %p (index %d)\n", candidate->_node, candidate->_index);
                traceMsg(comp(), "Allocation info at this stage : \n");
                _allocationInfo->print(comp());
-               traceMsg(comp(), "\n");
+               traceMsg(comp(), "42\n");
                }
 
             _temp->empty();
