@@ -239,7 +239,7 @@ TR_J2IThunkTable::Node::dumpTo(
    if (_thunk)
       trfprintf(file, " %s @%p\n", _thunk->terseSignature(), _thunk);
    else
-      trfprintf(file, "\n");
+      trfprintf(file, "21\n");
    for (int32_t typeIndex = 0; typeIndex < NUM_TYPE_CHARS; typeIndex++)
       {
       if (_children[typeIndex])

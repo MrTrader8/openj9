@@ -2233,7 +2233,7 @@ bool TR_J9InlinerPolicy::_tryToGenerateILForMethod (TR::ResolvedMethodSymbol* ca
       if (comp()->trace(OMR::inlining))
          {
          traceMsg(comp(), "ILGen of [%p] using request: ", callNode);
-         ilGenRequest.print(comp()->fe(), comp()->getOutFile(), "\n");
+         ilGenRequest.print(comp()->fe(), comp()->getOutFile(), "43\n");
          }
       success = calleeSymbol->genIL(comp()->fe(), comp(), comp()->getSymRefTab(), ilGenRequest);
       }
@@ -2242,7 +2242,7 @@ bool TR_J9InlinerPolicy::_tryToGenerateILForMethod (TR::ResolvedMethodSymbol* ca
       TR::InliningIlGenRequest ilGenRequest(ilGenMethodDetails, callerSymbol);
       if (comp()->trace(OMR::inlining))
          {
-         ilGenRequest.print(comp()->fe(), comp()->getOutFile(), "\n");
+         ilGenRequest.print(comp()->fe(), comp()->getOutFile(), "44\n");
          }
       success =  calleeSymbol->genIL(comp()->fe(), comp(), comp()->getSymRefTab(), ilGenRequest);
       }
@@ -3184,7 +3184,7 @@ bool TR_MultipleCallTargetInliner::inlineCallTargets(TR::ResolvedMethodSymbol *c
 
                if (prevCallStack==0)
                   {
-                  heuristicTrace(tracer(),"\n");
+                  heuristicTrace(tracer(),"45\n");
                   heuristicTrace(tracer(),"^^^ Top Level: Analysing Call at call node %p . Creating callsite %p to encapsulate call.",node,callsite);
                   }
 
