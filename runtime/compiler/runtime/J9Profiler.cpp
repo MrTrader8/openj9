@@ -1767,6 +1767,10 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
    int32_t frequency = getRawCount(callerIndex < 0 ? comp->getMethodSymbol() : comp->getInlinedResolvedMethodSymbol(callerIndex), bci, _callSiteInfo, maxCount, comp);
    if (trace)
       traceMsg(comp,"raw frequency on outter level was %d for bci %d:%d\n", frequency, bci.getCallerIndex(), bci.getByteCodeIndex());
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
    if (frequency > -1 || _counterDerivationInfo == NULL)
       return frequency;
 

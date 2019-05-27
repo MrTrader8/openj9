@@ -975,7 +975,11 @@ static TR::Node* getArrayBase(TR::Node *node)
    }
 
 static bool
+<<<<<<< HEAD
 areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
+=======
+areArraysInvariant(TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T, TR_CISCTransformer *trans)
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
    {
    if (T)
       {
@@ -990,7 +994,10 @@ areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *i
          {
          TR_CISCNode *aCNode = T->getCISCNode(aNode);
          TR_CISCNode *bCNode = T->getCISCNode(bNode);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
          if (disptrace)
             traceMsg(comp, "aC = %p %d bC = %p %d\n", aCNode, aCNode->getID(), bCNode, bCNode->getID());
          if (aCNode && bCNode)
@@ -9165,7 +9172,8 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
 
    if (preHeader)
       {
-      traceMsg(comp, "found preheader to be %d\n", preHeader->getNumber());
+      if (disptrace)
+         traceMsg(comp, "found preheader to be %d\n", preHeader->getNumber());
       //
       // obtain a CISCNode of each store for incrementing induction variables
 
@@ -9177,7 +9185,14 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       int32_t index2SymRefNum = inStoreSrc2->getSymbolReference()->getReferenceNumber();
 
       if (disptrace)
+<<<<<<< HEAD
          traceMsg(comp, "searching for stores to loop indices between preheader first tree %p and first matching tree %p, looking for symrefnum %d %d\n", preHeader->getFirstRealTreeTop()->getNode(),trTreeTop->getNode(),index1SymRefNum,index2SymRefNum);
+=======
+         traceMsg(comp, "searching for stores to loop indices between preheader first tree %p",
+         "and first matching tree %p, looking for symrefnum %d %d\n", 
+         preHeader->getFirstRealTreeTop()->getNode(),trTreeTop->getNode(),
+         index1SymRefNum,index2SymRefNum);
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
 
 
       TR::Node * tempNode;
@@ -9358,7 +9373,11 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       return false;
       }
 
+<<<<<<< HEAD
    if (!areArraysInvariant(trans, comp, inSrc1Node, inSrc2Node, T))
+=======
+   if (!areArraysInvariant(comp, inSrc1Node, inSrc2Node, T, trans))
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
       {
       traceMsg(comp, "input array bases %p and %p are not invariant, no reduction\n", inSrc1Node, inSrc2Node);
       return false;
@@ -9430,7 +9449,10 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       diff2 = createOP2(comp, TR::isub, end2Idx, start2Idx);
       end1Idx = convertStoreToLoad(comp, src1IdxRepNode);
       start1Idx = createOP2(comp, TR::isub, end1Idx, diff2);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
       if (disptrace)
          traceMsg(comp, "isDecrement start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
       startNode = start2Idx->duplicateTree();
@@ -9448,7 +9470,10 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       diff2 = createOP2(comp, TR::isub, end2Idx, start2Idx);
       start1Idx = convertStoreToLoad(comp, src1IdxRepNode);
       end1Idx = needVersioned ? createOP2(comp, TR::iadd, start1Idx, diff2) : NULL;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3470f4f14... Added guards to fix unguarded tracing
       if (disptrace)
          traceMsg(comp, "start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
       startNode = useSrc1 ? start1Idx->duplicateTree() : start2Idx->duplicateTree();
