@@ -510,7 +510,7 @@ reorderTargetNodesInBB(TR_CISCTransformer *trans)
                      {
                      traceMsg(comp," %p(%d)",nextT,nextT->getID());
                      }
-                  traceMsg(comp,"\n");
+                  traceMsg(comp,"44\n");
                   }
 
                // Analyze whether we can move the node t to immediately before the nodes in nextPlist

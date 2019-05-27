@@ -1361,7 +1361,7 @@ void TR_NewInitialization::findUninitializedWords()
          if (c->uninitializedWords)
             {
             c->uninitializedWords->print(comp());
-            traceMsg(comp(), "\n");
+            traceMsg(comp(), "51\n");
             }
          else if (c->numUninitializedWords)
             traceMsg(comp(), "{all}\n");

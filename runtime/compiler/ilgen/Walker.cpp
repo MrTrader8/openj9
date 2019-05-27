@@ -1121,19 +1121,19 @@ static void printStack(TR::Compilation *comp, TR_Stack<TR::Node*> *stack, const 
       for (int i = stack->topIndex(); i >= 0; --i)
          {
          TR::Node *node = stack->element(i);
-         traceMsg(comp, "\n");
+         traceMsg(comp, "27\n");
          sprintf(buf, "   @%-2d", i);
          comp->getDebug()->printWithFixedPrefix(comp->getOutFile(), node, 1, false, true, buf);
          if (!nodesAlreadyPrinted.isSet(node->getGlobalIndex()))
             {
             for (int j = 0; j < node->getNumChildren(); ++j)
                {
-               traceMsg(comp, "\n");
+               traceMsg(comp, "28\n");
                comp->getDebug()->printWithFixedPrefix(comp->getOutFile(), node->getChild(j), 3, true, true, "      ");
                }
             }
          }
-      traceMsg(comp, "\n");
+      traceMsg(comp, "29\n");
       }
    }
 
@@ -1149,10 +1149,10 @@ static void printTrees(TR::Compilation *comp, TR::TreeTop *firstTree, TR::TreeTo
       traceMsg(comp, "   /--- %s ------------------------", message);
       for (TR::TreeTop *tt = firstTree; tt && tt != stopTree; tt = tt->getNextTreeTop())
          {
-         traceMsg(comp, "\n");
+         traceMsg(comp, "31\n");
          comp->getDebug()->printWithFixedPrefix(comp->getOutFile(), tt->getNode(), 1, true, true, "      ");
          }
-      traceMsg(comp, "\n");
+      traceMsg(comp, "32\n");
       }
    }
 
@@ -1192,7 +1192,7 @@ TR::Block * TR_J9ByteCodeIlGenerator::walker(TR::Block * prevBlock)
       traceMsg(comp(), "==== Starting ILGen walker at bytecode %x", _bcIndex);
       if (_argPlaceholderSlot != -1)
          traceMsg(comp(), " argPlaceholderSlot=%d", _argPlaceholderSlot);
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "33\n");
       }
 
    while (_bcIndex < _maxByteCodeIndex)

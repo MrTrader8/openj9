@@ -150,7 +150,7 @@ J9::KnownObjectTable::dumpObjectTo(TR::FILE *file, Index i, const char *fieldNam
             if (!strcmp(field->signature, "I"))
                trfprintf(file, "  %s: %d", field->name, j9fe->getInt32Field(*ref, field->name));
             }
-         trfprintf(file, "\n");
+         trfprintf(file, "22/n");
          ListIterator<TR_VMField> refIter(fieldsInfo->getFields());
          for (TR_VMField *field = refIter.getFirst(); field; field = refIter.getNext())
             {
@@ -165,7 +165,7 @@ J9::KnownObjectTable::dumpObjectTo(TR::FILE *file, Index i, const char *fieldNam
          }
       else
          {
-         trfprintf(file, "\n");
+         trfprintf(file, "23\n");
          }
       }
    }

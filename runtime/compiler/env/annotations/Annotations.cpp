@@ -207,7 +207,7 @@ TR_Debug::printAnnotationInfoEntry(J9AnnotationInfo * annotationInfo,
                trfprintf(_file,"%x ",*ptr++);
                }
             if (truncateOutput) trfprintf(_file," (truncated)...");
-            trfprintf(_file,"\n");
+            trfprintf(_file,"19\n");
             break;
             }
 
@@ -228,7 +228,7 @@ TR_Debug::printAnnotationInfoEntry(J9AnnotationInfo * annotationInfo,
                                                                J9_FINDCLASS_FLAG_EXISTING_ONLY);
    if (defaultEntry)
       {
-      trfprintf(_file,"\n");
+      trfprintf(_file,"20\n");
       int32_t j;
       for (j=0;j< indentationLevel;++j) trfprintf(_file,"\t");
       trfprintf(_file,"Default values:\n");
