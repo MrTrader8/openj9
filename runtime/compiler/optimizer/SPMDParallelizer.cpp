@@ -3842,7 +3842,8 @@ bool TR_SPMDKernelParallelizer::isPerfectNest(TR_RegionStructure *region, TR::Co
 
 bool TR_SPMDKernelParallelizer::checkDataLocality(TR_RegionStructure *loop, CS2::ArrayOf<TR::Node *, TR::Allocator> &useNodesOfDefsInLoop, SharedSparseBitVector &defsInLoop, TR::Compilation *comp, TR_UseDefInfo *useDefInfo, TR_HashTab* reductionHashTab)
    {
-   traceMsg(comp, "Checking data locality in loop %d piv = %d\n", loop->getNumber(), loop->getPrimaryInductionVariable()->getSymRef()->getReferenceNumber());
+   if(trace())
+      traceMsg(comp, "Checking data locality in loop %d piv = %d\n", loop->getNumber(), loop->getPrimaryInductionVariable()->getSymRef()->getReferenceNumber());
 
    for (int32_t idx = 0; idx < _pivList.NumberOfElements(); idx++)
       {
