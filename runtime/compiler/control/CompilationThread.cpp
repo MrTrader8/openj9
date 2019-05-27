@@ -10358,7 +10358,7 @@ void TR::CompilationInfo::printCompQueue()
       {
       fprintf(stderr, " %x", cur);
       }
-   fprintf(stderr, "\n");
+   fprintf(stderr, "15\n");
    }
 
 #if DEBUG
@@ -10422,7 +10422,7 @@ TR::CompilationInfo::debugPrint(char * debugString, J9Method * method)
       return;
    fprintf(stderr, "%s for method ", debugString);
    debugPrint(method);
-   fprintf(stderr, "\n");
+   fprintf(stderr, "16\n");
    }
 
 void
@@ -10444,7 +10444,7 @@ TR::CompilationInfo::debugPrint(char * debugString, TR::IlGeneratorMethodDetails
       {
       fprintf(stderr, "%s for method ",debugString);
       debugPrint(details.getMethod());
-      fprintf(stderr, "\n");
+      fprintf(stderr, "17\n");
       }
    }
 
@@ -10489,7 +10489,7 @@ TR::CompilationInfo::printQueue()
       fprintf(stderr, "\n\t\t\tQueued: (%4d) %d:", p->_numThreadsWaiting, p->_index);
       debugPrint(p->getMethodDetails().getMethod());
       }
-   fprintf(stderr, "\n");
+   fprintf(stderr, "18\n");
    }
 #endif
 

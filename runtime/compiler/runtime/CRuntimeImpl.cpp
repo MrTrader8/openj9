@@ -229,9 +229,9 @@ void _prepareForOSR(uintptrj_t vmThreadArg, int32_t currentInlinedSiteIndex, int
          {
          printf("%.8x ", *(uint32_t*)(osrBufferPtr + 4*i));
          if ((i % 4) == 3 || (i == numIntsToPrint -1 ))
-            printf("\n");
+            printf("59\n");
          }
-      printf("\n");
+      printf("60\n");
       fflush(stdout);
       }
    if (details)

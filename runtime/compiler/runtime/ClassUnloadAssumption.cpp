@@ -1414,7 +1414,7 @@ void TR_AddressSet::add(uintptrj_t start, uintptrj_t end)
          fprintf(stderr, "UAR:    ");
          for (int j = 0; (j < 4) && (i+j < _numAddressRanges); j++)
             fprintf(stderr, " %4d [%p - %p]", i+j, _addressRanges[i+j].getStart(), _addressRanges[i+j].getEnd());
-         fprintf(stderr, "\n");
+         fprintf(stderr, "58\n");
          }
       }
 

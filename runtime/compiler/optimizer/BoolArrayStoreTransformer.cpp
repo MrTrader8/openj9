@@ -210,7 +210,7 @@ void TR_BoolArrayStoreTransformer::mergeTypeInfo(TypeInfo *first, TypeInfo *seco
       {
       traceMsg(comp(), "before merging: ");
       printTypeInfo(first, comp());
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "34\n");
       }
 
    bool changed = false;
@@ -243,7 +243,7 @@ void TR_BoolArrayStoreTransformer::mergeTypeInfo(TypeInfo *first, TypeInfo *seco
       {
       traceMsg(comp(), "after merging: ");
       printTypeInfo(first, comp());
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "35\n");
       }
    }
 
@@ -304,7 +304,7 @@ void TR_BoolArrayStoreTransformer::findBoolArrayStoreNodes()
             {
             traceMsg(comp(), "Entry Block (block_%d) type Info: ", firstBlock->getNumber());
             printTypeInfo(typeInfo, comp());
-            traceMsg(comp(), "\n");
+            traceMsg(comp(), "36\n");
             }
          }
       }
@@ -547,7 +547,7 @@ TR_BoolArrayStoreTransformer::TypeInfo * TR_BoolArrayStoreTransformer::processBl
       traceMsg(comp(), "start processing block_%d: ", block->getNumber());
       if (currentTypeInfo)
          printTypeInfo(currentTypeInfo, comp());
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "37\n");
       }
 
    for (TR::TreeTop *tt = block->getEntry(); tt != block->getExit(); tt = tt->getNextTreeTop())
@@ -637,7 +637,7 @@ TR_BoolArrayStoreTransformer::TypeInfo * TR_BoolArrayStoreTransformer::processBl
       traceMsg(comp(), "end processing block_%d: ", block->getNumber());
       if (currentTypeInfo)
          printTypeInfo(currentTypeInfo, comp());
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "38\n");
       }
 
    return currentTypeInfo;

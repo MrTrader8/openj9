@@ -1566,7 +1566,7 @@ void TR_SPMDKernelParallelizer::reportRejected(const char *msg1, const char *msg
    if (msg2)
       {
       traceMsg(comp(), msg2, comp()->signature(), lineNumber, comp()->getLineNumber(node));
-      traceMsg(comp(), "\n");
+      traceMsg(comp(), "52\n");
       }
 
    if (_verboseTrace > 0 && msg2)
@@ -3897,7 +3897,7 @@ bool TR_SPMDKernelParallelizer::checkDataLocality(TR_RegionStructure *loop, CS2:
    if (!usesOfDefsInLoop.IsZero())
       {
       traceMsg(comp, "   loop defines temps that are used outside: ");
-      (*comp) << usesOfDefsInLoop << "\n";
+      (*comp) << usesOfDefsInLoop << "53\n";
       return false;
       }
 
