@@ -710,6 +710,6 @@ TR_PPCHWProfiler::freeBuffer(void *buffer, uint64_t size)
 void
 TR_PPCHWProfiler::printStats()
    {
-   printf ("1\n");
+   printf ("\n");
    TR_HWProfiler::printStats();
    }

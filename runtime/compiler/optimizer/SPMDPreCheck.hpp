@@ -26,5 +26,5 @@
 class SPMDPreCheck
    {
    public:
-   static bool isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *region);
+   static bool isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *region, bool shouldTrace);
    };
