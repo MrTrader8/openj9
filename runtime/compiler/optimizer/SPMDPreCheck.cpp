@@ -27,7 +27,7 @@
 #include "il/Node_inlines.hpp"
 #include "codegen/CodeGenerator.hpp"
 
-bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop)
+bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop, bool shouldTrace)
    {
    bool trace = comp->trace(OMR::SPMDKernelParallelization);
 
@@ -70,13 +70,21 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
              TR::ILOpCodes vectorOp = TR::ILOpCode::convertScalarToVector(opcode.getOpCodeValue());
              if (vectorOp == TR::BadILOp)
                 {
+<<<<<<< HEAD
                 if (trace)
+=======
+                if (shouldTrace)
+>>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
                   traceMsg(comp, "SPMD PRE-CHECK FAILURE: store op code %s does not have a vector equivalent - skipping consideration of loop %d\n", comp->getDebug()->getName(opcode.getOpCodeValue()), loop->getNumber());
                 return false;
                 }
              if (!comp->cg()->getSupportsOpCodeForAutoSIMD(vectorOp, node->getDataType()))
                 {
+<<<<<<< HEAD
                 if (trace)
+=======
+                if (shouldTrace)
+>>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
                   traceMsg(comp, "SPMD PRE-CHECK FAILURE: vector op code %s is not supported on the current platform - skipping consideration of loop %d\n", comp->getDebug()->getName(vectorOp), loop->getNumber());
                 return false;
                 }
@@ -86,12 +94,17 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
 
           // unsafe opcode - we will skip LAR and SPMD
 <<<<<<< HEAD
+<<<<<<< HEAD
           if (trace)
             traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 =======
           
           traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 >>>>>>> 4e0b1bc58... Removed flags to find newline
+=======
+          if (shouldTrace)
+            traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
+>>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
           return false;
           }
        }
