@@ -180,7 +180,7 @@ bool TR_LoopAliasRefiner::processArrayAliasCandidates()
   
    markAsProcessed(_currentNaturalLoop->getNumber());
 
-   if (!SPMDPreCheck::isSPMDCandidate(comp(), _currentNaturalLoop))
+   if (!SPMDPreCheck::isSPMDCandidate(comp(), _currentNaturalLoop, trace()))
       {
       if (trace())
          traceMsg(comp(), "LAR: SPMDPreCheck failed - skipping consideration of loop %d\n", _currentNaturalLoop->getNumber());
