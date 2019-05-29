@@ -725,7 +725,7 @@ TR::ResolvedMethodSymbol *TR_NewInitialization::findInlinableMethod(TR::TreeTop 
    //TR_VirtualGuardKind guardKind = TR_NoGuard;
    TR_VirtualGuardSelection *guard = 0;
    TR_InlineCall newInlineCall(optimizer(), this);
-   newInlineCall.setSizeThreshold(_maxInlinedBytecodeSize);
+   newInlineCall.setSizeThreshold(_maxInlinedBytecodeSize, trace());
    TR_OpaqueClassBlock * thisClass = 0;
    TR::SymbolReference *symRef = callNode->getSymbolReference();
    TR::MethodSymbol *calleeMethodSymbol = symRef->getSymbol()->castToMethodSymbol();
@@ -1442,7 +1442,7 @@ void TR_NewInitialization::inlineCalls()
       // Now inline the call
       //
       TR_InlineCall newInlineCall(optimizer(), this);
-      newInlineCall.setSizeThreshold(_maxInlinedBytecodeSize);
+      newInlineCall.setSizeThreshold(_maxInlinedBytecodeSize, trace());
       bool inlineOK = newInlineCall.inlineCall(treeTop);
 
       // If the inlining failed for some reason, prohibit inlining

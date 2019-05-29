@@ -7510,7 +7510,7 @@ bool TR_EscapeAnalysis::inlineCallSites()
       if (performTransformation(comp(), "%sAttempting to inline call [%p]%s\n", OPT_DETAILS, treeTop->getNode(), toInlineFully?" fully":""))
          {
          TR_InlineCall newInlineCall(optimizer(), this);
-         newInlineCall.setSizeThreshold(size+100);
+         newInlineCall.setSizeThreshold(size+100, trace());
          bool inlineOK = newInlineCall.inlineCall(treeTop, 0, toInlineFully);
 
          if (inlineOK)

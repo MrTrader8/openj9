@@ -845,7 +845,7 @@ TR::TreeTop *TR_StringPeepholes::detectFormatPattern(TR::TreeTop *tt, TR::TreeTo
                {
                nextNode->getByteCodeInfo().setDoNotProfile(true);
                TR_InlineCall newInlineCall(optimizer(), this);
-               newInlineCall.setSizeThreshold(800);
+               newInlineCall.setSizeThreshold(800, trace());
                bool inlineOK = newInlineCall.inlineCall(tt, 0, true, 0, 400);
                privateFormatMethodCall = inlineOK ? next->getPrevRealTreeTop() : NULL;
                if (inlineOK && performTransformation(comp(), "%sdf.format(bd.doubleValue()) (or df.format(bd.floatValue()) ) has been optimized\n", optDetailString()))
