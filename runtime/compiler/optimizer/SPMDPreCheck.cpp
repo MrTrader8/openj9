@@ -117,9 +117,12 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           if (trace)
             traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 =======
+=======
+>>>>>>> 1b2b4b281... Removed flags to find newline
           
           traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 >>>>>>> 4e0b1bc58... Removed flags to find newline

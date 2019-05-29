@@ -212,7 +212,7 @@ TR_Debug::print(J9JITExceptionTable * data, TR_ResolvedMethod * feMethod, bool f
             trfprintf(_file, "liveMonitor mask: ");
 	    uint8_t * maskBits = callSiteCursor;
 	    printStackMapInfo(maskBits, sa->getNumberOfSlotsMapped(), 0, offsetInfo);
-            trfprintf(_file, "65\n");
+            trfprintf(_file, "\n");
 	    }
 
          callSiteCursor += j9StackAtlas->numberOfMapBytes;
@@ -313,7 +313,7 @@ TR_Debug::printStackAtlasDetails(uintptrj_t startPC, uint8_t * mapBits, int32_t 
        uint8_t *mapBits = (uint8_t *) ((uintptrj_t) localStackAllocMap + sizeof(uintptrj_t));
        printStackMapInfo(mapBits, numberOfSlotsMapped, sizeOfStackAtlas, NULL);
 
-       trfprintf(_file,"66\n");
+       trfprintf(_file,"\n");
        }
 
    //Offset info
@@ -419,7 +419,7 @@ TR_Debug::printMapInfo(uintptrj_t startPC, uint8_t * mapBits, int32_t numberOfSl
       if(!nummaps)
          {
          trfprintf(_file,"}");
-         trfprintf(_file,"67\n");
+         trfprintf(_file,"\n");
          }
 
       if ((*(uint32_t *)byteCodeInfo ==0x00000000) && (registerMap ==0xFADECAFE) && !nummaps)
@@ -469,7 +469,7 @@ TR_Debug::printMapInfo(uintptrj_t startPC, uint8_t * mapBits, int32_t numberOfSl
             trfprintf(_file, "      stack map: ");
          printStackMapInfo(mapBits, numberOfSlotsMapped, sizeOfStackAtlas, offsetInfo, nummaps);
          if(!nummaps)
-            trfprintf(_file,"68\n");
+            trfprintf(_file,"\n");
 
 	 // check is there's live monitor meta data and if so, bump the pointers.
 	 // todo: print out the live monitor meta data
@@ -480,7 +480,7 @@ TR_Debug::printMapInfo(uintptrj_t startPC, uint8_t * mapBits, int32_t numberOfSl
                trfprintf(_file, "liveMonitor map: ");
 	    printStackMapInfo(mapBits, numberOfSlotsMapped, sizeOfStackAtlas, offsetInfo, nummaps);
 	    if(!nummaps)
-          trfprintf(_file,"69\n");
+          trfprintf(_file,"\n");
 	    }
 
          if ((!inDebugExtension() && _comp->isAlignStackMaps()) || (inDebugExtension() && isAlignStackMaps()))
@@ -492,7 +492,7 @@ TR_Debug::printMapInfo(uintptrj_t startPC, uint8_t * mapBits, int32_t numberOfSl
          }
       }
    if(!nummaps)
-      trfprintf(_file, "70\n");
+      trfprintf(_file, "\n");
 
    return mapBits;
    }

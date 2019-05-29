@@ -511,7 +511,7 @@ J9::AheadOfTimeCompile::dumpRelocationHeaderData(uint8_t *cursor, bool isVerbose
          return cursor;
       }
 
-   traceMsg(self()->comp(), "6\n");
+   traceMsg(self()->comp(), "\n");
 
    return endOfCurrentRecord;
    }
@@ -1825,7 +1825,7 @@ J9::AheadOfTimeCompile::dumpRelocationData()
         break;
          }
 
-      traceMsg(self()->comp(), "7\n");
+      traceMsg(self()->comp(), "\n");
       }
    }
 

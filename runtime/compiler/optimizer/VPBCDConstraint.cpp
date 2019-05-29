@@ -223,10 +223,10 @@ TR::VPConstraint *TR::VP_BCDSign::intersect1(TR::VPConstraint *other, OMR::Value
       traceMsg(vp->comp(),"\nTR::VP_BCDSign::intersect1\n");
       traceMsg(vp->comp(),"this  %p: ",this);
       print(vp->comp(), vp->comp()->getOutFile());
-      traceMsg(vp->comp(), "54\n");
+      traceMsg(vp->comp(), "\n");
       traceMsg(vp->comp(),"other %p: ",other);
       other->print(vp->comp(), vp->comp()->getOutFile());
-      traceMsg(vp->comp(), "57\n");
+      traceMsg(vp->comp(), "\n");
       }
 
    if (asBCDSign() && other->asBCDSign())
@@ -247,10 +247,10 @@ TR::VPConstraint *TR::VP_BCDSign::merge1(TR::VPConstraint *other, OMR::ValueProp
       traceMsg(vp->comp(),"\nTR::VP_BCDSign::merge1\n");
       traceMsg(vp->comp(),"this  %p: ",this);
       print(vp->comp(), vp->comp()->getOutFile());
-      traceMsg(vp->comp(), "55\n");
+      traceMsg(vp->comp(), "\n");
       traceMsg(vp->comp(),"other %p (isBCDSign=%d): ",other,other->asBCDSign()?1:0);
       other->print(vp->comp(), vp->comp()->getOutFile());
-      traceMsg(vp->comp(), "56\n");
+      traceMsg(vp->comp(), "\n");
       }
 
    if (asBCDSign() && other->asBCDSign())

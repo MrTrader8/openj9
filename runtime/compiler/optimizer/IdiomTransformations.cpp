@@ -510,7 +510,7 @@ reorderTargetNodesInBB(TR_CISCTransformer *trans)
                      {
                      traceMsg(comp," %p(%d)",nextT,nextT->getID());
                      }
-                  traceMsg(comp,"44\n");
+                  traceMsg(comp,"\n");
                   }
 
                // Analyze whether we can move the node t to immediately before the nodes in nextPlist
@@ -5757,10 +5757,13 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
 
    int32_t postIncrement = checkForPostIncrement(trans, comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
 <<<<<<< HEAD
+<<<<<<< HEAD
    
    if (disptrace)
       traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
 =======
+=======
+>>>>>>> 1b2b4b281... Removed flags to find newline
    traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
 >>>>>>> 4e0b1bc58... Removed flags to find newline
 
