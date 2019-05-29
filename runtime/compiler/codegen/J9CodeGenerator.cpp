@@ -2230,7 +2230,7 @@ J9::CodeGenerator::doInstructionSelection()
             trfprintf(self()->comp()->getOutFile(),"------------------------------");
             for (TR::TreeTop *dumptt = tt; dumptt != self()->getCurrentEvaluationTreeTop()->getNextTreeTop(); dumptt = dumptt->getNextTreeTop())
                {
-               trfprintf(self()->comp()->getOutFile(),"8\n");
+               trfprintf(self()->comp()->getOutFile(),"\n");
                self()->comp()->getDebug()->dumpSingleTreeWithInstrs(dumptt, NULL, true, false, true, false);
                }
             // all instructions are on the tt tree
@@ -4138,7 +4138,7 @@ J9::CodeGenerator::allocateLinkageRegisters()
       {
       dumpOptDetails(self()->comp(), "  Initial globalRegsWithRegLoad: ");
       self()->getDebug()->print(self()->comp()->getOptions()->getLogFile(), &globalRegsWithRegLoad);
-      dumpOptDetails(self()->comp(), "9\n");
+      dumpOptDetails(self()->comp(), "\n");
       }
 
 
@@ -4159,7 +4159,7 @@ J9::CodeGenerator::allocateLinkageRegisters()
             {
             dumpOptDetails(self()->comp(), "  Found store %s\n  killedParms is now ", self()->comp()->getDebug()->getName(node));
             self()->getDebug()->print(self()->comp()->getOptions()->getLogFile(), &killedParms);
-            dumpOptDetails(self()->comp(), "10\n");
+            dumpOptDetails(self()->comp(), "\n");
             }
          }
       }
@@ -4261,7 +4261,7 @@ J9::CodeGenerator::changeParmLoadsToRegLoads(TR::Node *node, TR::Node **regLoads
          {
          dumpOptDetails(self()->comp(), "  Found loadaddr %s\n  killedParms is now ", self()->comp()->getDebug()->getName(node));
          self()->getDebug()->print(self()->comp()->getOptions()->getLogFile(), &killedParms);
-         dumpOptDetails(self()->comp(), "11\n");
+         dumpOptDetails(self()->comp(), "\n");
          }
       }
 

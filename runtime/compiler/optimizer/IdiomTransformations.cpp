@@ -510,7 +510,7 @@ reorderTargetNodesInBB(TR_CISCTransformer *trans)
                      {
                      traceMsg(comp," %p(%d)",nextT,nextT->getID());
                      }
-                  traceMsg(comp,"44\n");
+                  traceMsg(comp,"\n");
                   }
 
                // Analyze whether we can move the node t to immediately before the nodes in nextPlist
@@ -1089,8 +1089,9 @@ findIndVarLoads(TR::Node *node, TR::Node *indVarStoreNode, bool &storeFound,
    }
 
 static int32_t
-checkForPostIncrement(TR::Compilation *comp, TR::Block *loopHeader, TR::Node *loopCmpNode, TR::Symbol *ivSym)
+checkForPostIncrement(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Block *loopHeader, TR::Node *loopCmpNode, TR::Symbol *ivSym)
    {
+   const bool disptrace = DISPTRACE(trans);
    TR::TreeTop *startTree = loopHeader->getFirstRealTreeTop();
    TR::Node *indVarStoreNode = NULL;
    TR::TreeTop *tt;
@@ -1120,7 +1121,8 @@ checkForPostIncrement(TR::Compilation *comp, TR::Block *loopHeader, TR::Node *lo
    if (storeIvLoad->getOpCode().isAdd() || storeIvLoad->getOpCode().isSub())
       storeIvLoad = storeIvLoad->getFirstChild();
 
-   traceMsg(comp, "found storeIvload %p cmpFirstChild %p\n", storeIvLoad, cmpFirstChild);
+   if(disptrace)
+      traceMsg(comp, "found storeIvload %p cmpFirstChild %p\n", storeIvLoad, cmpFirstChild);
    // simple case
    // the loopCmp uses the un-incremented value
    // of the iv
@@ -5725,7 +5727,7 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    variableORconstRepNode = convertStoreToLoad(comp, variableORconstRepNode);
 
 
-   int32_t postIncrement = checkForPostIncrement(comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
+   int32_t postIncrement = checkForPostIncrement(trans, comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
    traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
 
    TR::Node * lengthNode;

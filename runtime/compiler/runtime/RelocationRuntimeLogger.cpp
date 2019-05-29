@@ -219,12 +219,12 @@ TR_RelocationRuntimeLogger::relocationDump()
          while (reloRecord < (U_8*)endRecord)
             {
             if (count % 16 == 0)
-               JITRT_PRINTF(jitConfig())(jitConfig(), "71\n");
+               JITRT_PRINTF(jitConfig())(jitConfig(), "\n");
             count++;
             JITRT_PRINTF(jitConfig())(jitConfig(), "%2.2x ", *reloRecord);
             reloRecord++;
             }
-         JITRT_PRINTF(jitConfig())(jitConfig(), "72\n");
+         JITRT_PRINTF(jitConfig())(jitConfig(), "\n");
 
          unlockLog(wasLocked);
          }

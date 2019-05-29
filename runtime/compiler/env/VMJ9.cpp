@@ -7477,7 +7477,7 @@ TR_J9VM::inlineNativeCall(TR::Compilation * comp, TR::TreeTop * callNodeTreeTop,
                comp->getDebug()->dumpSingleTreeWithInstrs(callNodeTreeTop, NULL, true, false, true, false);
                comp->getDebug()->restoreNodeChecklist(nodeChecklistBeforeDump);
 
-               traceMsg(comp, "24\n");
+               traceMsg(comp, "\n");
                }
 
             TR_ASSERT(!callNode->getOpCode().isIndirect(), "Expecting direct call to Class.isInstance");
