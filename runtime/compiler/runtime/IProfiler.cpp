@@ -442,7 +442,7 @@ TR_IProfiler::persistIprofileInfo(TR::ResolvedMethodSymbol *resolvedMethodSymbol
                   fprintf(stderr, "Entries found:");
                   for (int32_t i=0; i < numEntries; i++)
                      fprintf(stderr, " %p(bytecode=0x%x)", pcEntries[i], *((char*)pcEntries[i]));
-                  fprintf(stderr, "61\n");
+                  fprintf(stderr, "\n");
 #endif
                   void * memChunk = comp->trMemory()->allocateMemory(bytesFootprint, stackAlloc);
                   intptrj_t bytes = createBalancedBST(pcEntries, 0, numEntries-1, (uintptrj_t) memChunk, comp, cacheOffset, cacheSize);

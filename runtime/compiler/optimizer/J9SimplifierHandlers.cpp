@@ -272,7 +272,7 @@ static TR::Node *removeShiftTruncationForConversionParent(TR::Node *conversion, 
                pdclean->setDecimalPrecision(shiftedPrecision);
                pdclean->setVisitCount(0);
                }
-            dumpOptDetails(s->comp(),"48\n");
+            dumpOptDetails(s->comp(),"\n");
             shift->setDecimalPrecision(shiftedPrecision);
             shift->setVisitCount(0);
             child->setVisitCount(0);
@@ -2147,7 +2147,7 @@ static TR::Node *foldSetSignIntoGrandChild(TR::Node *setSign, TR::Block *block, 
          if (removeSetSignNode)
             dumpOptDetails(s->comp(), " and remove parent %s node [" POINTER_PRINTF_FORMAT "]\n", setSign->getOpCode().getName(),setSign);
          else
-            dumpOptDetails(s->comp(),"46\n");
+            dumpOptDetails(s->comp(),"\n");
          newNode->incReferenceCount();
          newNode->setDecimalPrecision(src->getDecimalPrecision());
          stopUsingSingleNode(src, false, s); // removePadding=false, remains attached to newNode if one exists on src

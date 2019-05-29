@@ -85,8 +85,13 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
              }
 
           // unsafe opcode - we will skip LAR and SPMD
+<<<<<<< HEAD
           if (trace)
             traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
+=======
+          
+          traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
+>>>>>>> 4e0b1bc58... Removed flags to find newline
           return false;
           }
        }

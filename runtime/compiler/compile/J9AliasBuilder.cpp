@@ -74,7 +74,7 @@ J9::AliasBuilder::methodAliases(TR::SymbolReference *symRef)
             {
             traceMsg(comp(), "For method sym %d aliases\n", symRef->getReferenceNumber());
             _userFieldMethodDefAliases[id]->print(comp());
-            traceMsg(comp(), "12\n");
+            traceMsg(comp(), "\n");
             }
          return _userFieldMethodDefAliases[id];
          }
@@ -102,7 +102,7 @@ J9::AliasBuilder::methodAliases(TR::SymbolReference *symRef)
                      {
                      traceMsg(comp(), "Method sym %d includes aliases for %.*s.<init>\n", symRef->getReferenceNumber(), clazzNameLen, clazzName);
                      symrefsToInclude->print(comp());
-                     traceMsg(comp(), "13\n");
+                     traceMsg(comp(), "\n");
                      }
                   if (allocatedResult)
                      *allocatedResult |= *symrefsToInclude;
@@ -138,7 +138,7 @@ J9::AliasBuilder::methodAliases(TR::SymbolReference *symRef)
       {
       traceMsg(comp(), "For method sym %d default aliases without immutable\n", symRef->getReferenceNumber());
       defaultMethodDefAliasesWithoutImmutable().print(comp());
-      traceMsg(comp(), "14\n");
+      traceMsg(comp(), "\n");
       }
 
    return &defaultMethodDefAliasesWithoutImmutable();

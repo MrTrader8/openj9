@@ -339,7 +339,7 @@ class EdgeFrequencyInfo
          {
          traceMsg(comp, "none");
          }
-      traceMsg(comp, "47\n");
+      traceMsg(comp, "\n");
       }
    public:
    EdgeFrequencyInfo(TR::Compilation *comp, TR::CFGEdge *loopBack, int32_t numEdges, TR::Region &region, bool trace = false) : comp(comp), loopBack(loopBack), region(region), trace(trace)
@@ -804,7 +804,7 @@ void TR_JProfilingBlock::dumpCounterDependencies(TR_BitVector **componentCounter
          while (bvi.hasMoreElements())
             traceMsg(comp(), "%d ", bvi.getNextElement());
          }
-      traceMsg(comp(), "49\n");
+      traceMsg(comp(), "\n");
       TR_BitVector *subtractive = componentCounters[iter.currentBlock()->getNumber()*2 + 1];
       traceMsg(comp(), "   sub: ");
       if (((uintptr_t)subtractive & 0x1) == 1)
@@ -821,7 +821,7 @@ void TR_JProfilingBlock::dumpCounterDependencies(TR_BitVector **componentCounter
          while (bvi.hasMoreElements())
             traceMsg(comp(), "%d ", bvi.getNextElement());
          }
-      traceMsg(comp(), "50\n");
+      traceMsg(comp(), "\n");
       }
    }
 

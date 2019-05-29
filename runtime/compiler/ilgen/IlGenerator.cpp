@@ -3235,7 +3235,7 @@ void TR_J9ByteCodeIlGenerator::expandMethodHandleInvokeCall(TR::TreeTop *tree)
       traceMsg(comp(), "Found MethodHandle invoke call n%dn %p to expand\n", callNode->getGlobalIndex(), callNode);
       traceMsg(comp(), "   /--- Tree before expanding n%dn --------------------\n", callNode->getGlobalIndex());
       comp()->getDebug()->printWithFixedPrefix(comp()->getOutFile(), ttNode, 1, true, true, "      ");
-      traceMsg(comp(), "25\n");
+      traceMsg(comp(), "\n");
       }
 
    int32_t oldBCIndex = _bcIndex;
@@ -3291,7 +3291,7 @@ void TR_J9ByteCodeIlGenerator::expandMethodHandleInvokeCall(TR::TreeTop *tree)
       do
          {
          comp()->getDebug()->printWithFixedPrefix(comp()->getOutFile(), tt->getNode(), 1, true, true, "      ");
-         traceMsg(comp(), "26\n");
+         traceMsg(comp(), "\n");
          tt = tt->getNextTreeTop();
          } while( tt != nextTree);
       }

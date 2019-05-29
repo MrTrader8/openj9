@@ -243,6 +243,7 @@ class TR_DataAccessAccelerator : public TR::Optimization
 
    bool printInliningStatus(bool status, TR::Node* node, const char* reason = "")
       {
+<<<<<<< HEAD
       if (trace()){
          if (status)
             traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : SUCCESS\n", node);
@@ -252,6 +253,16 @@ class TR_DataAccessAccelerator : public TR::Optimization
             traceMsg(comp(), "DataAccessAccelerator:     Reason : %s\n", reason);
          }
       }
+=======
+      if (trace())
+         if (status)
+            traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : SUCCESS\n", node);
+         else
+            {
+            traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : FAILED\n", node);
+            traceMsg(comp(), "DataAccessAccelerator:     Reason : %s\n", reason);
+            }
+>>>>>>> 4e0b1bc58... Removed flags to find newline
       return status;
       }
    };
