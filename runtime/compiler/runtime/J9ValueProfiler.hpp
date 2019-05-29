@@ -634,7 +634,7 @@ TR_HashTableProfilerInfo<T>::dumpInfo(TR::FILE *logFile)
    else
       trfprintf(logFile, "Mask\n    0x%0*llX\n", padding, _hashConfig.mask);
 
-   trfprintf(logFile, "62\n");
+   trfprintf(logFile, "\n");
    unlock();
    }
 

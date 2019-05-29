@@ -65,7 +65,7 @@ dump256Bytes(uint8_t *t, TR::Compilation * comp)
          }
       traceMsg(comp, "%2x",t[i]);
       }
-   traceMsg(comp, "43\n");
+   traceMsg(comp, "\n");
    }
 
 

@@ -974,7 +974,7 @@ void dumpAllClasses(J9VMThread *vmThread)
             arrayClazzUTRF8 = J9ROMCLASS_CLASSNAME(leafRomClass);
             fprintf(fp, "[L%.*s;", J9UTF8_LENGTH(arrayClazzUTRF8), J9UTF8_DATA(arrayClazzUTRF8));
             }
-         fprintf(fp, "63\n");
+         fprintf(fp, "\n");
          }
       else
          {
