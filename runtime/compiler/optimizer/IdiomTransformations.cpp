@@ -875,10 +875,16 @@ indexContainsArray(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *i
 
 
 static bool
+<<<<<<< HEAD
 indexContainsArrayAccess(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *aXaddNode)
    {
    const bool disptrace = DISPTRACE(trans);
    
+=======
+indexContainsArrayAccess(TR_CISCTransformer *trans,TR::Compilation *comp, TR::Node *aXaddNode)
+   {
+   const bool disptrace = DISPTRACE(trans);
+>>>>>>> 4274cdbe3... Added more guards to stop unguarded tracing
    if (disptrace)
       traceMsg(comp, "axaddnode %p\n", aXaddNode);
    TR::Node *loadNode1, *loadNode2, *topLevelIndex;
@@ -976,10 +982,14 @@ static TR::Node* getArrayBase(TR::Node *node)
 
 static bool
 <<<<<<< HEAD
+<<<<<<< HEAD
 areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
 =======
 areArraysInvariant(TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T, TR_CISCTransformer *trans)
 >>>>>>> 3470f4f14... Added guards to fix unguarded tracing
+=======
+areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
+>>>>>>> 4274cdbe3... Added more guards to stop unguarded tracing
    {
    if (T)
       {
@@ -9378,10 +9388,14 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    if (!areArraysInvariant(trans, comp, inSrc1Node, inSrc2Node, T))
 =======
    if (!areArraysInvariant(comp, inSrc1Node, inSrc2Node, T, trans))
 >>>>>>> 3470f4f14... Added guards to fix unguarded tracing
+=======
+   if (!areArraysInvariant(trans, comp, inSrc1Node, inSrc2Node, T))
+>>>>>>> 4274cdbe3... Added more guards to stop unguarded tracing
       {
       traceMsg(comp, "input array bases %p and %p are not invariant, no reduction\n", inSrc1Node, inSrc2Node);
       return false;

@@ -27,8 +27,10 @@
 #include "il/Node_inlines.hpp"
 #include "codegen/CodeGenerator.hpp"
 
+
 bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop, bool shouldTrace)
    {
+<<<<<<< HEAD
    bool trace = comp->trace(OMR::SPMDKernelParallelization);
 
    if (!loop->isNaturalLoop())
@@ -36,6 +38,12 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
       if (trace)
          traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
       }
+=======
+   if (!loop->isNaturalLoop())
+      {
+          traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
+       }
+>>>>>>> 4274cdbe3... Added more guards to stop unguarded tracing
 
    TR_ScratchList<TR::Block> blocksInLoopList(comp->trMemory());
    loop->getBlocks(&blocksInLoopList);
