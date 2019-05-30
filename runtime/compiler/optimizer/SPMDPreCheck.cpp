@@ -27,12 +27,12 @@
 #include "il/Node_inlines.hpp"
 #include "codegen/CodeGenerator.hpp"
 
+
 bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop, bool shouldTrace)
    {
- 
    if (!loop->isNaturalLoop())
       {
-      traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
+          traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
        }
 
    TR_ScratchList<TR::Block> blocksInLoopList(comp->trMemory());

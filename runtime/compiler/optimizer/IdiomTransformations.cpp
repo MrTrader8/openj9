@@ -846,14 +846,18 @@ usedInLoopTest(TR::Compilation *comp, TR::Node *loopTestNode, TR::SymbolReferenc
    }
 
 static bool
-indexContainsArray(TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
+indexContainsArray(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
    {
+   const bool disptrace = DISPTRACE(trans);
+
    if (index->getVisitCount() == visitCount)
       return false;
 
    index->setVisitCount(visitCount);
 
-   traceMsg(comp, "analyzing node %p\n", index);
+   if (disptrace)
+      traceMsg(comp, "analyzing node %p\n", index);
+   
    if (index->getOpCode().hasSymbolReference() &&
          index->getSymbolReference()->getSymbol()->isArrayShadowSymbol())
       {
@@ -862,7 +866,7 @@ indexContainsArray(TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
       }
 
    for (int32_t i = 0; i < index->getNumChildren(); i++)
-      if (indexContainsArray(comp, index->getChild(i), visitCount))
+      if (indexContainsArray(trans, comp, index->getChild(i), visitCount))
          return true;
 
    return false;
@@ -870,9 +874,11 @@ indexContainsArray(TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
 
 
 static bool
-indexContainsArrayAccess(TR::Compilation *comp, TR::Node *aXaddNode)
+indexContainsArrayAccess(TR_CISCTransformer *trans,TR::Compilation *comp, TR::Node *aXaddNode)
    {
-   traceMsg(comp, "axaddnode %p\n", aXaddNode);
+   const bool disptrace = DISPTRACE(trans);
+   if (disptrace)
+      traceMsg(comp, "axaddnode %p\n", aXaddNode);
    TR::Node *loadNode1, *loadNode2, *topLevelIndex;
    findIndexLoad(aXaddNode, loadNode1, loadNode2, topLevelIndex);
    // topLevelIndex now contains the actual expression q in a[q]
@@ -880,10 +886,11 @@ indexContainsArrayAccess(TR::Compilation *comp, TR::Node *aXaddNode)
    // this loop into an arraycopy
    // ie. a[b[i]] do not represent linear array accesses
    //
-   traceMsg(comp, "aXaddNode %p topLevelIndex %p\n", aXaddNode, topLevelIndex);
+   if (disptrace)
+      traceMsg(comp, "aXaddNode %p topLevelIndex %p\n", aXaddNode, topLevelIndex);
    vcount_t visitCount = comp->incOrResetVisitCount();
    if (topLevelIndex)
-      return indexContainsArray(comp, topLevelIndex, visitCount);
+      return indexContainsArray(trans, comp, topLevelIndex, visitCount);
    return false;
    }
 
@@ -966,7 +973,7 @@ static TR::Node* getArrayBase(TR::Node *node)
    }
 
 static bool
-areArraysInvariant(TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T, TR_CISCTransformer *trans)
+areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
    {
    if (T)
       {
@@ -5669,8 +5676,8 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    if ((statusArrayStore = checkArrayStore(comp, inputNode, outputNode, elementSize, !isDecrement)) == ABANDONING_REDUCTION)
       return false;
 
-   if (indexContainsArrayAccess(comp, inLoadNode->getFirstChild()) ||
-         indexContainsArrayAccess(comp, inStoreNode->getFirstChild()))
+   if (indexContainsArrayAccess(trans, comp, inLoadNode->getFirstChild()) ||
+         indexContainsArrayAccess(trans, comp, inStoreNode->getFirstChild()))
       {
       traceMsg(comp, "inputNode %p or outputnode %p contains another arrayaccess, no reduction\n", inLoadNode, inStoreNode);
       return false;
@@ -9349,7 +9356,7 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       return false;
       }
 
-   if (!areArraysInvariant(comp, inSrc1Node, inSrc2Node, T, trans))
+   if (!areArraysInvariant(trans, comp, inSrc1Node, inSrc2Node, T))
       {
       traceMsg(comp, "input array bases %p and %p are not invariant, no reduction\n", inSrc1Node, inSrc2Node);
       return false;
