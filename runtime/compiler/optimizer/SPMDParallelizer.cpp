@@ -3504,12 +3504,23 @@ bool TR_SPMDKernelParallelizer::visitCPUNode(TR::Node *node, int32_t visitCount,
 
       if (method)
          {
+<<<<<<< HEAD
          if (trace()) 
             traceMsg(comp(), "inside IntPipeline%s.forEach\n",
                method->getRecognizedMethod() == TR::java_util_stream_IntPipelineHead_forEach ? "$Head" : "");
+=======
+         if (trace())
+            {
+            traceMsg(comp(), "inside IntPipeline%s.forEach\n",
+               method->getRecognizedMethod() == TR::java_util_stream_IntPipelineHead_forEach ? "$Head" : "");
+            }
+>>>>>>> e792bed38... Added Aditional guards
 
-         traceMsg(comp(), "need to insert flush\n");
-         flushGPUBlocks->set(block->getNumber());
+         if (trace())
+            {
+            traceMsg(comp(), "need to insert flush\n");
+            flushGPUBlocks->set(block->getNumber());
+            }
          }
       else if (opcode.isCall())
          {
@@ -3525,7 +3536,11 @@ bool TR_SPMDKernelParallelizer::visitCPUNode(TR::Node *node, int32_t visitCount,
 
          TR_Method * method = node->getSymbolReference()->getSymbol()->castToMethodSymbol()->getMethod();
          const char * signature = method->signature(comp()->trMemory(), stackAlloc);
+<<<<<<< HEAD
          
+=======
+
+>>>>>>> e792bed38... Added Aditional guards
          if (trace())
             traceMsg(comp(), "signature: %s\n", signature ? signature : "NULL");
 
@@ -3717,7 +3732,7 @@ TR_SPMDKernelParallelizer::collectGPUScopes(TR_RegionStructure *region, List<TR_
          {
          TR_SPMDScopeInfo* pScopeInfo = new (comp()->trStackMemory()) TR_SPMDScopeInfo(comp(),region,scopeNaturalLoop);
          pScopeInfo->setKernelList(gpuKernels);
-
+         
          traceMsg(comp(), "Found GPU scope %d in %s (natural loop type) with kernels:\n", region->getNumber(), comp()->signature());
 
          if (analyzeGPUScope(pScopeInfo))
@@ -4137,11 +4152,18 @@ bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_U
                { 
                continue;
                }
+<<<<<<< HEAD
             if (trace())
                {
                traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and def %p are dependent\n", defs[dc], defs[dc2]);
                traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n");
                } 
+=======
+
+            if (trace())
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and def %p are dependent\n", defs[dc], defs[dc2]);
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n"); 
+>>>>>>> e792bed38... Added Aditional guards
             return false;
             }
          }
@@ -4165,9 +4187,11 @@ bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_U
                { 
                continue;
                }
-
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and use %p are dependent\n", defs[dc], uses[uc]);
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n"); 
+            if (trace())
+            {
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and use %p are dependent\n", defs[dc], uses[uc]);
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n"); 
+            }
             return false;
             }
          }
@@ -4251,6 +4275,7 @@ TR_SPMDKernelParallelizer::vectorize(TR::Compilation *comp, TR_RegionStructure *
    TR::Block *loopInvariantBlock = NULL;
    if (!TR_LoopUnroller::isWellFormedLoop(loop, comp, loopInvariantBlock))
       {
+
       traceMsg(comp, "Cannot unroll loop %d: not a well formed loop\n", loop->getNumber());
       return false;
       }
