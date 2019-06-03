@@ -28,8 +28,9 @@
 #include "codegen/CodeGenerator.hpp"
 
 
-bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop, bool shouldTrace)
+bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *loop)
    {
+<<<<<<< HEAD
 <<<<<<< HEAD
    bool trace = comp->trace(OMR::SPMDKernelParallelization);
 
@@ -39,8 +40,12 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
          traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
       }
 =======
+=======
+   bool trace = comp->trace(OMR::SPMDKernelParallelization);
+>>>>>>> a5146b554... Added guards to SPMD precheck
    if (!loop->isNaturalLoop())
       {
+         if (trace)
           traceMsg(comp, "SPMD PRE-CHECK FAILURE: region %d is not a natural loop and is discounted as an SPMD candidate\n", loop->getNumber());
        }
 >>>>>>> 4274cdbe3... Added more guards to stop unguarded tracing
@@ -79,20 +84,28 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
              if (vectorOp == TR::BadILOp)
                 {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if (trace)
 =======
                 if (shouldTrace)
 >>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
+=======
+                if (trace)
+>>>>>>> a5146b554... Added guards to SPMD precheck
                   traceMsg(comp, "SPMD PRE-CHECK FAILURE: store op code %s does not have a vector equivalent - skipping consideration of loop %d\n", comp->getDebug()->getName(opcode.getOpCodeValue()), loop->getNumber());
                 return false;
                 }
              if (!comp->cg()->getSupportsOpCodeForAutoSIMD(vectorOp, node->getDataType()))
                 {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if (trace)
 =======
                 if (shouldTrace)
 >>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
+=======
+                if (trace)
+>>>>>>> a5146b554... Added guards to SPMD precheck
                   traceMsg(comp, "SPMD PRE-CHECK FAILURE: vector op code %s is not supported on the current platform - skipping consideration of loop %d\n", comp->getDebug()->getName(vectorOp), loop->getNumber());
                 return false;
                 }
@@ -103,6 +116,7 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
           // unsafe opcode - we will skip LAR and SPMD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           if (trace)
             traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 =======
@@ -111,6 +125,9 @@ bool SPMDPreCheck::isSPMDCandidate(TR::Compilation *comp, TR_RegionStructure *lo
 >>>>>>> 4e0b1bc58... Removed flags to find newline
 =======
           if (shouldTrace)
+=======
+          if (trace)
+>>>>>>> a5146b554... Added guards to SPMD precheck
             traceMsg(comp, "SPMD PRE-CHECK FAILURE: found disallowed treetop opcode %s at node %p in loop %d\n", comp->getDebug()->getName(node->getOpCodeValue()), node, loop->getNumber());
 >>>>>>> 59ba2d1ee... Added additional guards to unguarded traces
           return false;

@@ -3772,7 +3772,7 @@ bool TR_SPMDKernelParallelizer::isSPMDKernelLoop(TR_RegionStructure *region, TR:
    if (region->isNaturalLoop() &&
        region->getPrimaryInductionVariable())
       {
-      if (!SPMDPreCheck::isSPMDCandidate(comp, region, trace()))
+      if (!SPMDPreCheck::isSPMDCandidate(comp, region))
          {
          if (trace())
             traceMsg(comp, "Natural loop %d has failed SPMD pre-check - skipping consideration\n", region->getNumber());
