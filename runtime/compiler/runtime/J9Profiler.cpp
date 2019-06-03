@@ -1808,7 +1808,8 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
          // we have found a frame where we don't have profiling info
          if (callerFrequency < 0)
             {
-            traceMsg(comp, "  found frame for %s with no outter profiling info\n", resolvedMethodSymbol->signature(comp->trMemory()));
+            if (trace)
+               traceMsg(comp, "  found frame for %s with no outter profiling info\n", resolvedMethodSymbol->signature(comp->trMemory()));
             // has this method been compiled so we might have had a chance to profile it?
             if (!resolvedMethod->isInterpretedForHeuristics()
                 && !resolvedMethod->isNative()
@@ -1820,7 +1821,8 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
                    && info->getBlockFrequencyInfo()
                    && info->getBlockFrequencyInfo()->_counterDerivationInfo)
                   {
-                  traceMsg(comp, "  method has profiling\n");
+                  if (trace)
+                     traceMsg(comp, "  method has profiling\n");
                   int32_t effectiveCallerIndex = -1;
                   TR_BlockFrequencyInfo *bfi = info->getBlockFrequencyInfo();
                   if (callStack.empty() || info->getCallSiteInfo()->computeEffectiveCallerIndex(comp, callStack, effectiveCallerIndex))
