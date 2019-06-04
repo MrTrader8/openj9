@@ -1749,7 +1749,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
       bci.setCallerIndex(comp->getCurrentInlinedSiteIndex());
       normalizeForCallers = false;
       }
-   int32_t frequency = getFrequencyInfo(bci, comp, normalizeForCallers, true);
+   int32_t frequency = getFrequencyInfo(bci, comp, normalizeForCallers, comp->getOption(TR_TraceBFGeneration));
    if (comp->getOption(TR_TraceBFGeneration))
       traceMsg(comp, "@@ block_%d [%d,%d] has raw count %d\n", block->getNumber(), bci.getCallerIndex(), bci.getByteCodeIndex(), frequency);
    return frequency;
@@ -1766,7 +1766,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
    int32_t callerIndex = bci.getCallerIndex();
    int32_t frequency = getRawCount(callerIndex < 0 ? comp->getMethodSymbol() : comp->getInlinedResolvedMethodSymbol(callerIndex), bci, _callSiteInfo, maxCount, comp);
    if (trace)
-      traceMsg(comp,"raw frequency on outter level was %d for bci %d:%d\n", frequency, bci.getCallerIndex(), bci.getByteCodeIndex());
+      traceMsg(comp," er level was %d for bci %d:%d\n", frequency, bci.getCallerIndex(), bci.getByteCodeIndex());
    
    if (frequency > -1 || _counterDerivationInfo == NULL)
       return frequency;
