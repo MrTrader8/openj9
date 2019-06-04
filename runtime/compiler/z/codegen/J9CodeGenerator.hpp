@@ -114,6 +114,8 @@ class OMR_EXTENSIBLE CodeGenerator : public J9::CodeGenerator
    bool canGeneratePDBinaryIntrinsic(TR::ILOpCodes opCode, TR::Node * op1PrecNode, TR::Node * op2PrecNode, TR::Node * resultPrecNode);
 
    bool constLoadNeedsLiteralFromPool(TR::Node *node);
+   
+   bool supportsTrapsInTMRegion(){ return TR::Compiler->target.isZOS();}
 
    using J9::CodeGenerator::addAllocatedRegister;
    void addAllocatedRegister(TR_PseudoRegister * temp);
@@ -260,8 +262,6 @@ class OMR_EXTENSIBLE CodeGenerator : public J9::CodeGenerator
    bool inlineCryptoMethod(TR::Node *node, TR::Register *&resultReg);
 #endif
 
-   void incRefCountForOpaquePseudoRegister(TR::Node * node, TR::CodeGenerator * cg, TR::Compilation * comp);
-   //OVERLOAD THE ABOVE FUNCTION
    void incRefCountForOpaquePseudoRegister(TR::Node * node);
 
    /** \brief

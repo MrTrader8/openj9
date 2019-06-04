@@ -5617,6 +5617,7 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    List<TR_CISCNode> *P2T = trans->getP2T();
    TR::Compilation *comp = trans->comp();
    bool isDecrement = trans->isMEMCPYDec();
+   const bool disptrace = DISPTRACE(trans);
 
    TR_ASSERT(trans->isEmptyAfterInsertionIdiomList(0) && trans->isEmptyAfterInsertionIdiomList(1), "Not implemented yet!");
    if (!trans->isEmptyAfterInsertionIdiomList(0) || !trans->isEmptyAfterInsertionIdiomList(1)) return false;
@@ -5735,7 +5736,9 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
 
 
    int32_t postIncrement = checkForPostIncrement(trans, comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
-   traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
+
+   if (disptrace)
+      traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
 
    TR::Node * lengthNode;
    if (isDecrement)

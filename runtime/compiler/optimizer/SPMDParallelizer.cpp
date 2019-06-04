@@ -3863,7 +3863,8 @@ bool TR_SPMDKernelParallelizer::checkDataLocality(TR_RegionStructure *loop, CS2:
 
    for (int32_t idx = 0; idx < _pivList.NumberOfElements(); idx++)
       {
-      traceMsg(comp, "   iv = %d\n", _pivList[idx]->getSymRef()->getReferenceNumber());
+      if(trace())
+         traceMsg(comp, "   iv = %d\n", _pivList[idx]->getSymRef()->getReferenceNumber());
       }
 
    setLoopDataType(loop,comp);
