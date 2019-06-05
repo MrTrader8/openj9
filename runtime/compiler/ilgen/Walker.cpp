@@ -4665,7 +4665,8 @@ TR_J9ByteCodeIlGenerator::genInvoke(TR::SymbolReference * symRef, TR::Node *indi
 
 #define DAA_PRINT(a) \
 case a: \
-   traceMsg(comp(), "DAA Method found: %s\n", #a); \
+   if(trace()) \
+      traceMsg(comp(), "DAA Method found: %s\n", #a); \
 break
 
 

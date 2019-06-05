@@ -846,23 +846,28 @@ usedInLoopTest(TR::Compilation *comp, TR::Node *loopTestNode, TR::SymbolReferenc
    }
 
 static bool
-indexContainsArray(TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
+indexContainsArray(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
    {
+   const bool disptrace = DISPTRACE(trans);
+
    if (index->getVisitCount() == visitCount)
       return false;
 
    index->setVisitCount(visitCount);
 
-   traceMsg(comp, "analyzing node %p\n", index);
+   if (disptrace)
+      traceMsg(comp, "analyzing node %p\n", index);
+   
    if (index->getOpCode().hasSymbolReference() &&
          index->getSymbolReference()->getSymbol()->isArrayShadowSymbol())
       {
-      traceMsg(comp, "found array node %p\n", index);
+      if (disptrace)
+         traceMsg(comp, "found array node %p\n", index);
       return true;
       }
 
    for (int32_t i = 0; i < index->getNumChildren(); i++)
-      if (indexContainsArray(comp, index->getChild(i), visitCount))
+      if (indexContainsArray(trans, comp, index->getChild(i), visitCount))
          return true;
 
    return false;
@@ -870,9 +875,12 @@ indexContainsArray(TR::Compilation *comp, TR::Node *index, vcount_t visitCount)
 
 
 static bool
-indexContainsArrayAccess(TR::Compilation *comp, TR::Node *aXaddNode)
+indexContainsArrayAccess(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *aXaddNode)
    {
-   traceMsg(comp, "axaddnode %p\n", aXaddNode);
+   const bool disptrace = DISPTRACE(trans);
+   
+   if (disptrace)
+      traceMsg(comp, "axaddnode %p\n", aXaddNode);
    TR::Node *loadNode1, *loadNode2, *topLevelIndex;
    findIndexLoad(aXaddNode, loadNode1, loadNode2, topLevelIndex);
    // topLevelIndex now contains the actual expression q in a[q]
@@ -880,10 +888,11 @@ indexContainsArrayAccess(TR::Compilation *comp, TR::Node *aXaddNode)
    // this loop into an arraycopy
    // ie. a[b[i]] do not represent linear array accesses
    //
-   traceMsg(comp, "aXaddNode %p topLevelIndex %p\n", aXaddNode, topLevelIndex);
+   if (disptrace)
+      traceMsg(comp, "aXaddNode %p topLevelIndex %p\n", aXaddNode, topLevelIndex);
    vcount_t visitCount = comp->incOrResetVisitCount();
    if (topLevelIndex)
-      return indexContainsArray(comp, topLevelIndex, visitCount);
+      return indexContainsArray(trans, comp, topLevelIndex, visitCount);
    return false;
    }
 
@@ -966,20 +975,24 @@ static TR::Node* getArrayBase(TR::Node *node)
    }
 
 static bool
-areArraysInvariant(TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
+areArraysInvariant(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Node *inputNode, TR::Node *outputNode, TR_CISCGraph *T)
    {
    if (T)
       {
+      const bool disptrace = DISPTRACE(trans);
       TR::Node *aNode = getArrayBase(inputNode);
       TR::Node *bNode = getArrayBase(outputNode);
 
-      traceMsg(comp, "aNode = %p bNode = %p\n", aNode, bNode);
+      if (disptrace)
+         traceMsg(comp, "aNode = %p bNode = %p\n", aNode, bNode);
       if (aNode && aNode->getOpCode().isLoadDirect() &&
             bNode && bNode->getOpCode().isLoadDirect())
          {
          TR_CISCNode *aCNode = T->getCISCNode(aNode);
          TR_CISCNode *bCNode = T->getCISCNode(bNode);
-         traceMsg(comp, "aC = %p %d bC = %p %d\n", aCNode, aCNode->getID(), bCNode, bCNode->getID());
+
+         if (disptrace)
+            traceMsg(comp, "aC = %p %d bC = %p %d\n", aCNode, aCNode->getID(), bCNode, bCNode->getID());
          if (aCNode && bCNode)
             {
             ListIterator<TR_CISCNode> aDefI(aCNode->getChains());
@@ -1086,8 +1099,9 @@ findIndVarLoads(TR::Node *node, TR::Node *indVarStoreNode, bool &storeFound,
    }
 
 static int32_t
-checkForPostIncrement(TR::Compilation *comp, TR::Block *loopHeader, TR::Node *loopCmpNode, TR::Symbol *ivSym)
+checkForPostIncrement(TR_CISCTransformer *trans, TR::Compilation *comp, TR::Block *loopHeader, TR::Node *loopCmpNode, TR::Symbol *ivSym)
    {
+   const bool disptrace = DISPTRACE(trans);
    TR::TreeTop *startTree = loopHeader->getFirstRealTreeTop();
    TR::Node *indVarStoreNode = NULL;
    TR::TreeTop *tt;
@@ -1117,7 +1131,8 @@ checkForPostIncrement(TR::Compilation *comp, TR::Block *loopHeader, TR::Node *lo
    if (storeIvLoad->getOpCode().isAdd() || storeIvLoad->getOpCode().isSub())
       storeIvLoad = storeIvLoad->getFirstChild();
 
-   traceMsg(comp, "found storeIvload %p cmpFirstChild %p\n", storeIvLoad, cmpFirstChild);
+   if(disptrace)
+      traceMsg(comp, "found storeIvload %p cmpFirstChild %p\n", storeIvLoad, cmpFirstChild);
    // simple case
    // the loopCmp uses the un-incremented value
    // of the iv
@@ -5605,6 +5620,7 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    List<TR_CISCNode> *P2T = trans->getP2T();
    TR::Compilation *comp = trans->comp();
    bool isDecrement = trans->isMEMCPYDec();
+   const bool disptrace = DISPTRACE(trans);
 
    TR_ASSERT(trans->isEmptyAfterInsertionIdiomList(0) && trans->isEmptyAfterInsertionIdiomList(1), "Not implemented yet!");
    if (!trans->isEmptyAfterInsertionIdiomList(0) || !trans->isEmptyAfterInsertionIdiomList(1)) return false;
@@ -5664,8 +5680,8 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    if ((statusArrayStore = checkArrayStore(comp, inputNode, outputNode, elementSize, !isDecrement)) == ABANDONING_REDUCTION)
       return false;
 
-   if (indexContainsArrayAccess(comp, inLoadNode->getFirstChild()) ||
-         indexContainsArrayAccess(comp, inStoreNode->getFirstChild()))
+   if (indexContainsArrayAccess(trans, comp, inLoadNode->getFirstChild()) ||
+         indexContainsArrayAccess(trans, comp, inStoreNode->getFirstChild()))
       {
       traceMsg(comp, "inputNode %p or outputnode %p contains another arrayaccess, no reduction\n", inLoadNode, inStoreNode);
       return false;
@@ -5722,8 +5738,10 @@ CISCTransform2ArrayCopySub(TR_CISCTransformer *trans, TR::Node *indexRepNode, TR
    variableORconstRepNode = convertStoreToLoad(comp, variableORconstRepNode);
 
 
-   int32_t postIncrement = checkForPostIncrement(comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
-   traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
+   int32_t postIncrement = checkForPostIncrement(trans, comp, block, cmpIfAllCISCNode->getHeadOfTrNodeInfo()->_node, exitVarSymRef->getSymbol());
+   
+   if (disptrace)
+      traceMsg(comp, "detected postIncrement %d modLength %d modStartIdx %d\n", postIncrement, modLength, modStartIdx);
 
    TR::Node * lengthNode;
    if (isDecrement)
@@ -9158,7 +9176,8 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       int32_t index1SymRefNum = inStoreSrc1->getSymbolReference()->getReferenceNumber();
       int32_t index2SymRefNum = inStoreSrc2->getSymbolReference()->getReferenceNumber();
 
-      traceMsg(comp, "searching for stores to loop indices between preheader first tree %p and first matching tree %p, looking for symrefnum %d %d\n", preHeader->getFirstRealTreeTop()->getNode(),trTreeTop->getNode(),index1SymRefNum,index2SymRefNum);
+      if (disptrace)
+         traceMsg(comp, "searching for stores to loop indices between preheader first tree %p and first matching tree %p, looking for symrefnum %d %d\n", preHeader->getFirstRealTreeTop()->getNode(),trTreeTop->getNode(),index1SymRefNum,index2SymRefNum);
 
 
       TR::Node * tempNode;
@@ -9339,7 +9358,7 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       return false;
       }
 
-   if (!areArraysInvariant(comp, inSrc1Node, inSrc2Node, T))
+   if (!areArraysInvariant(trans, comp, inSrc1Node, inSrc2Node, T))
       {
       traceMsg(comp, "input array bases %p and %p are not invariant, no reduction\n", inSrc1Node, inSrc2Node);
       return false;
@@ -9412,7 +9431,8 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       end1Idx = convertStoreToLoad(comp, src1IdxRepNode);
       start1Idx = createOP2(comp, TR::isub, end1Idx, diff2);
 
-      traceMsg(comp, "isDecrement start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
+      if (disptrace)
+         traceMsg(comp, "isDecrement start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
       startNode = start2Idx->duplicateTree();
       endNode = useSrc1 ? end1Idx->duplicateTree() : end2Idx->duplicateTree();
 
@@ -9429,7 +9449,8 @@ CISCTransform2ArrayCmp(TR_CISCTransformer *trans)
       start1Idx = convertStoreToLoad(comp, src1IdxRepNode);
       end1Idx = needVersioned ? createOP2(comp, TR::iadd, start1Idx, diff2) : NULL;
 
-      traceMsg(comp, "start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
+      if (disptrace)
+         traceMsg(comp, "start1Idx %p start2Idx %p end1Idx %p end2Idx %p\n", start1Idx, start2Idx, end1Idx, end2Idx);
       startNode = useSrc1 ? start1Idx->duplicateTree() : start2Idx->duplicateTree();
       endNode = end2Idx->duplicateTree();
 

@@ -243,14 +243,15 @@ class TR_DataAccessAccelerator : public TR::Optimization
 
    bool printInliningStatus(bool status, TR::Node* node, const char* reason = "")
       {
-      if (status)
-         traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : SUCCESS\n", node);
-      else
+      if (trace()){
+         if (status)
+            traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : SUCCESS\n", node);
+         else
          {
-         traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : FAILED\n", node);
-         traceMsg(comp(), "DataAccessAccelerator:     Reason : %s\n", reason);
+            traceMsg(comp(), "DataAccessAccelerator: Intrinsics on node %p : FAILED\n", node);
+            traceMsg(comp(), "DataAccessAccelerator:     Reason : %s\n", reason);
          }
-
+      }
       return status;
       }
    };
