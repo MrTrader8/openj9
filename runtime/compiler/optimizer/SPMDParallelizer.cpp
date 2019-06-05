@@ -3180,12 +3180,14 @@ bool TR_SPMDKernelParallelizer::processGPULoop(TR_RegionStructure *loop, TR_SPMD
    TR::Node *lastNode = loopInvariantBlock->getLastRealTreeTop()->getNode();
    if (lastNode->getOpCode().isGoto())
       {
+      if (trace())
       traceMsg(comp(), "Changing destination of goto at the end of block_%d\n", loopInvariantBlock->getNumber());
       lastNode->setBranchDestination(blockAfterLoop->getEntry());
       }
    else
       {
-      traceMsg(comp(), "Inserting goto at the end of block_%d\n", loopInvariantBlock->getNumber());
+      if (trace())
+         traceMsg(comp(), "Inserting goto at the end of block_%d\n", loopInvariantBlock->getNumber());
       TR::Node *gotoNode = TR::Node::create(firstNode, TR::Goto, 0, blockAfterLoop->getEntry());
       TR::TreeTop *gotoTreeTop = TR::TreeTop::create(comp(), gotoNode);
       loopInvariantBlock->append(gotoTreeTop);
@@ -3337,7 +3339,8 @@ bool TR_SPMDKernelParallelizer::processGPULoop(TR_RegionStructure *loop, TR_SPMD
 
    if(!(_reversedBranchNodes->isSet(ibmTryGPUNode->getGlobalIndex()))) //check if not set
       {
-      traceMsg(comp(), "Reversing branch in node %p, Global Index %u\n", ibmTryGPUNode, ibmTryGPUNode->getGlobalIndex());
+      if (trace())
+         traceMsg(comp(), "Reversing branch in node %p, Global Index %u\n", ibmTryGPUNode, ibmTryGPUNode->getGlobalIndex());
       ibmTryGPUNode->reverseBranch(ibmTryGPUNode->getBranchDestination());
       _reversedBranchNodes->set(ibmTryGPUNode->getGlobalIndex());
       }
@@ -3482,7 +3485,8 @@ bool TR_SPMDKernelParallelizer::visitCPUNode(TR::Node *node, int32_t visitCount,
        node->getOpCodeValue() == TR::arraycopy ||
        opcode.isCall())
       {
-      traceMsg(comp(), "Found %s in non-cold CPU node %p\n", opcode.isCall() ? "a call" : "array access", node);
+      if (trace())
+         traceMsg(comp(), "Found %s in non-cold CPU node %p\n", opcode.isCall() ? "a call" : "array access", node);
 
       TR_ResolvedMethod  *method;
 
@@ -3500,8 +3504,9 @@ bool TR_SPMDKernelParallelizer::visitCPUNode(TR::Node *node, int32_t visitCount,
 
       if (method)
          {
-         traceMsg(comp(), "inside IntPipeline%s.forEach\n",
-             method->getRecognizedMethod() == TR::java_util_stream_IntPipelineHead_forEach ? "$Head" : "");
+         if (trace()) 
+            traceMsg(comp(), "inside IntPipeline%s.forEach\n",
+               method->getRecognizedMethod() == TR::java_util_stream_IntPipelineHead_forEach ? "$Head" : "");
 
          traceMsg(comp(), "need to insert flush\n");
          flushGPUBlocks->set(block->getNumber());
@@ -3513,25 +3518,29 @@ bool TR_SPMDKernelParallelizer::visitCPUNode(TR::Node *node, int32_t visitCount,
              !node->getSymbolReference()->getSymbol()->castToMethodSymbol() ||
              !node->getSymbolReference()->getSymbol()->castToMethodSymbol()->getMethod())
             {
-            traceMsg(comp(), "can't hoist due to a call\n");
+            if (trace())
+               traceMsg(comp(), "can't hoist due to a call\n");
             return false;
             }
 
          TR_Method * method = node->getSymbolReference()->getSymbol()->castToMethodSymbol()->getMethod();
          const char * signature = method->signature(comp()->trMemory(), stackAlloc);
-
-         traceMsg(comp(), "signature: %s\n", signature ? signature : "NULL");
+         
+         if (trace())
+            traceMsg(comp(), "signature: %s\n", signature ? signature : "NULL");
 
          if (!(signature && strlen(signature) >= 10 && strncmp(signature, "java/lang/", 10) == 0) &&
              !(signature && strlen(signature) >= 10 && strncmp(signature, "java/util/", 10) == 0))
             {
-            traceMsg(comp(), "can't hoist due to a call\n");
+            if (trace())
+               traceMsg(comp(), "can't hoist due to a call\n");
             return false;
             }
          }
       else
          {
-         traceMsg(comp(), "can't hoist due do array access\n");
+         if (trace())
+            traceMsg(comp(), "can't hoist due do array access\n");
          return false;
          }
       }
@@ -3613,7 +3622,8 @@ TR_SPMDKernelParallelizer::analyzeGPUScope(TR_SPMDScopeInfo* pScopeInfo)
 
     for (kernel = kit.getFirst(); kernel; kernel = kit.getNext())
        {
-       traceMsg(comp(), "GPU kernel: %d\n", kernel->getNumber());
+       if (trace())
+         traceMsg(comp(), "GPU kernel: %d\n", kernel->getNumber());
        kernel->getBlocks(&kernelBlocks);
        }
 
@@ -3630,7 +3640,8 @@ TR_SPMDKernelParallelizer::analyzeGPUScope(TR_SPMDScopeInfo* pScopeInfo)
 
    for (TR_RegionStructure *loop = lit.getFirst(); loop; loop = lit.getNext())
       {
-      traceMsg(comp(), "cold loop: %d\n", loop->getNumber());
+      if (trace())
+         traceMsg(comp(), "cold loop: %d\n", loop->getNumber());
       loop->getBlocks(&coldLoopBlocks);
       }
 
@@ -3645,7 +3656,8 @@ TR_SPMDKernelParallelizer::analyzeGPUScope(TR_SPMDScopeInfo* pScopeInfo)
    for (nbit.SetToFirstOne(); nbit.Valid(); nbit.SetToNextOne())
       {
       TR::Block *nextBlock = _origCfgBlocks[nbit];
-      traceMsg(comp(), "non-cold CPU block %d\n", nextBlock->getNumber());
+      if (trace())
+         traceMsg(comp(), "non-cold CPU block %d\n", nextBlock->getNumber());
 
       for (TR::TreeTop *tt = nextBlock->getEntry() ; tt != nextBlock->getExit() ; tt = tt->getNextTreeTop())
          {
@@ -3846,7 +3858,8 @@ bool TR_SPMDKernelParallelizer::checkDataLocality(TR_RegionStructure *loop, CS2:
 
    for (int32_t idx = 0; idx < _pivList.NumberOfElements(); idx++)
       {
-      traceMsg(comp, "   iv = %d\n", _pivList[idx]->getSymRef()->getReferenceNumber());
+      if (trace())
+         traceMsg(comp, "   iv = %d\n", _pivList[idx]->getSymRef()->getReferenceNumber());
       }
 
    setLoopDataType(loop,comp);
@@ -4081,7 +4094,8 @@ bool TR_SPMDKernelParallelizer::checkConstantDistanceDependence(TR_RegionStructu
 
 bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_UseDefInfo *useDefInfo, CS2::ArrayOf<TR::Node *, TR::Allocator> &useNodesOfDefsInLoop, SharedSparseBitVector &defsInLoop, TR::Compilation *comp)
    {
-   traceMsg(comp, "Checking independence in loop %d piv = %d\n", loop->getNumber(), loop->getPrimaryInductionVariable()->getSymRef()->getReferenceNumber());
+   if (trace())
+      traceMsg(comp, "Checking independence in loop %d piv = %d\n", loop->getNumber(), loop->getPrimaryInductionVariable()->getSymRef()->getReferenceNumber());
    CS2::ArrayOf<TR::Node *, TR::Allocator> defs(comp->allocator(), NULL);
    CS2::ArrayOf<TR::Node *, TR::Allocator> uses(comp->allocator(), NULL);
 
@@ -4109,7 +4123,8 @@ bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_U
          if (defs[dc2]->getOpCode().hasSymbolReference() &&
              defs[dc]->mayKill().contains(defs[dc2]->getSymbolReference(), comp))
             {
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: Testing (def %p, def %p) for dependence\n", defs[dc], defs[dc2]);
+            if (trace())
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: Testing (def %p, def %p) for dependence\n", defs[dc], defs[dc2]);
             if (!loop->isExprInvariant(defs[dc]->getFirstChild()) &&
                 !loop->isExprInvariant(defs[dc2]->getFirstChild()) &&
                 areNodesEquivalent(comp,defs[dc]->getFirstChild(), defs[dc2]->getFirstChild()))
@@ -4121,9 +4136,11 @@ bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_U
                { 
                continue;
                }
-
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and def %p are dependent\n", defs[dc], defs[dc2]);
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n"); 
+            if (trace())
+               {
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: def %p and def %p are dependent\n", defs[dc], defs[dc2]);
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: will not vectorize\n");
+               } 
             return false;
             }
          }
@@ -4134,7 +4151,8 @@ bool TR_SPMDKernelParallelizer::checkIndependence(TR_RegionStructure *loop, TR_U
          if (uses[uc]->getOpCode().hasSymbolReference() &&
              defs[dc]->mayKill().contains(uses[uc]->getSymbolReference(), comp))
             {
-            traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: Testing (def %p, use %p) for dependence\n", defs[dc], uses[uc]);
+            if (trace())
+               traceMsg(comp, "SPMD DEPENDENCE ANALYSIS: Testing (def %p, use %p) for dependence\n", defs[dc], uses[uc]);
             if (!loop->isExprInvariant(defs[dc]->getFirstChild()) &&
                 !loop->isExprInvariant(uses[uc]->getFirstChild()) &&
                 areNodesEquivalent(comp,defs[dc]->getFirstChild(),uses[uc]->getFirstChild()))
