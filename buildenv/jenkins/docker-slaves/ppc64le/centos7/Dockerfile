@@ -31,8 +31,6 @@ FROM ppc64le/centos:centos7
 
 # Install required OS tools
 
-ENV USER="jenkins"
-
 RUN yum -y update \
   && yum -y install \
     alsa-lib-devel \
@@ -41,6 +39,7 @@ RUN yum -y update \
     bzip2 \
     ca-certificates \
     cups-devel \
+	cmake \
     cpio \
     curl-devel `# This is being used for git` \
     elfutils-libelf-devel \
@@ -165,15 +164,6 @@ RUN cd /usr/src/ \
   && /usr/src/cuda_7.5.18_linux.run --silent --toolkit --override \
   && rm -f /usr/src/cuda_7.5.18_linux.run
 
-# add user home/jenkins
-RUN useradd -ms /bin/bash ${USER} \
-  && mkdir /home/${USER}/.ssh/
-COPY authorized_keys /home/${USER}/.ssh/authorized_keys
-COPY known_hosts /home/${USER}/.ssh/known_hosts
-RUN chown -R ${USER}:${USER} /home/${USER} \
-  && chmod 644 /home/${USER}/.ssh/authorized_keys \
-  && chmod 644 /home/${USER}/.ssh/known_hosts
-
 # Install make 4.1 so can compile on java 8
 RUN cd /tmp \
   && wget -O make-4.1.tar.gz "http://ftp.gnu.org/gnu/make/make-4.1.tar.gz" \
@@ -255,37 +245,3 @@ RUN yum -y update \
   && make install \
   && cd .. \
   && rm -rf Python-3.7.3
-
-# Setup a reference repository cache for faster clones in the container
-RUN mkdir /home/${USER}/openjdk_cache \
-  && cd /home/${USER}/openjdk_cache \
-  && git init --bare \
-  && git remote add jdk8 https://github.com/ibmruntimes/openj9-openjdk-jdk8.git \
-  && git remote add jdk11 https://github.com/ibmruntimes/openj9-openjdk-jdk11.git \
-  && git remote add jdk12 https://github.com/ibmruntimes/openj9-openjdk-jdk12.git \
-  && git remote add jdk13 https://github.com/ibmruntimes/openj9-openjdk-jdk13.git \
-  && git remote add jdk https://github.com/ibmruntimes/openj9-openjdk-jdk.git \
-  && git remote add openj9 https://github.com/eclipse/openj9.git \
-  && git remote add omr https://github.com/eclipse/openj9-omr.git \
-  && git fetch --all \
-  && git gc --aggressive --prune=all
-
-# set up sshd config
-RUN mkdir /var/run/sshd \
-  && sed -i 's/#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config \
-  && sed -i 's/#RSAAuthentication.*/RSAAuthentication yes/' /etc/ssh/sshd_config \
-  && sed -i 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-# Expose SSH port and run SSHD
-EXPOSE 22
-
-# Generate ssh host keys
-RUN /usr/bin/ssh-keygen -A
-
-# Adding bash profile so ${USER} max user processes will be unlimited
-RUN echo >> /home/${USER}/.bashrc \
-  && echo "# Change max user processes in ${USER}" >> /home/${USER}/.bashrc \
-  && echo "ulimit -u unlimited" >> /home/${USER}/.bashrc
