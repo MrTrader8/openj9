@@ -66,6 +66,9 @@ void TR_HCRGuardAnalysis::analyzeTreeTopsInBlockStructure(TR_BlockStructure *blo
 TR_HCRGuardAnalysis::TR_HCRGuardAnalysis(TR::Compilation *comp, TR::Optimizer *optimizer, TR_Structure *rootStructure) :
    TR_UnionSingleBitContainerAnalysis(comp, comp->getFlowGraph(), optimizer, false/*comp->getOption(TR_TraceFearPointAnalysis)*/)
    {
+   
+
+   
    //_traceFearPointAnalysis = comp->getOption(TR_TraceFearPointAnalysis);
    if (comp->getVisitCount() > 8000)
       comp->resetVisitCounts(1);
